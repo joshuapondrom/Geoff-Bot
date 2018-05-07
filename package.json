@@ -16,6 +16,7 @@
   "author": "Joshua Pondrom",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^11.3.2"
+    "discord.js": "^11.3.2",
+    "sqlite": "^2.9.1"
   }
 }
