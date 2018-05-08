@@ -1,6 +1,7 @@
 const discord = require('discord.js');
 const client = new discord.Client();
 const sql = require('sqlite');
+const _ = require('lodash');
 sql.open('./score.sqlite');
 
 const config = require('./config.json');
@@ -27,6 +28,28 @@ function prefixedCommand(message, command, args) {
             if (!row) return message.reply("You have 0 points");
             message.reply(`You have ${row.points} points`);
         });
+    } else if (command === "rps") {
+        if (args.length != 1) {
+            message.reply("Invalid choice, try again.");
+        }
+        let choices = ['r', 'p', 's'];
+        let choice = args[0].charAt(0).toLowerCase();
+        computerChoice = _.sample(choices);
+        console.log(choice, choices, computerChoice);
+        if (choices.indexOf(choice) === -1) {
+            message.reply("Invalid choice, try again.");
+        } else if (choice === computerChoice) {
+            message.reply("We tied.");
+        } else if ((choice === 'r' && computerChoice === 'p') ||
+                   (choice === 'p' && computerChoice === 's') ||
+                   (choice === 's' && computerChoice === 'r')) {
+            message.reply("You lost.");
+        } else {
+            message.reply("You won!");
+        }
+    } else if (command === "flip") {
+        let outcome = ['Heads', 'Tails'];
+        message.reply(_.sample(outcome));
     }
 }
 
